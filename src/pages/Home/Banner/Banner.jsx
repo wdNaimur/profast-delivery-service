@@ -7,7 +7,7 @@ import { Carousel } from 'react-responsive-carousel';
 
 const Banner = () => {
     return (
-        <Carousel>
+        <Carousel autoPlay={true} infiniteLoop={true}>
             <div>
                 <img src={bannerImg1} />
                 <p className="legend">Legend 1</p>
