@@ -11,14 +11,15 @@ export const router = createBrowserRouter([
     path: "/",
     Component: RootLayout,
     children: [
-        {
-            index: true,
-            Component: Home
-        },
-        {
-          path: 'coverage',
-          Component: Coverage
-        }
+      {
+        index: true,
+        Component: Home
+      },
+      {
+        path: 'coverage',
+        Component: Coverage,
+        loader: () => fetch('./serviceCenter.json')
+      }
     ]
   },
   {
