@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import Swal from 'sweetalert2';
 import { useLoaderData } from "react-router";
 import useAuth from "../../hooks/useAuth";
@@ -98,8 +97,12 @@ const SendParcel = () => {
                     creation_date: new Date().toISOString(),
                     tracking_id: generateTrackingID(),
                 };
+
                 console.log("Ready for payment:", parcelData);
                 // Here you could redirect to a payment page or trigger a payment modal
+
+                // save data to the server
+                
                 Swal.fire({
                     title: "Redirecting...",
                     text: "Proceeding to payment gateway.",
