@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2';
 import { useLoaderData } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const generateTrackingID = () => {
     const date = new Date();
@@ -18,6 +19,7 @@ const SendParcel = () => {
         formState: { errors },
     } = useForm();
     const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
 
     const serviceCenters = useLoaderData();
     // Extract unique regions
@@ -99,17 +101,22 @@ const SendParcel = () => {
                 };
 
                 console.log("Ready for payment:", parcelData);
-                // Here you could redirect to a payment page or trigger a payment modal
-
-                // save data to the server
                 
-                Swal.fire({
-                    title: "Redirecting...",
-                    text: "Proceeding to payment gateway.",
-                    icon: "success",
-                    timer: 1500,
-                    showConfirmButton: false,
-                });
+                axiosSecure.post('/parcels', parcelData)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            // TODO: redirect to a payment page 
+                            Swal.fire({
+                                title: "Redirecting...",
+                                text: "Proceeding to payment gateway.",
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false,
+                            });
+                        }
+                    })
+                
             }
         });
     };
