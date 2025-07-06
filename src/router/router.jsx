@@ -9,6 +9,8 @@ import PrivateRoute from "../routes/PrivateRoute";
 import SendParcel from "../pages/SendParcel/SendParcel";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyParcels from "../pages/Dashboard/MyParcels/MyParcels";
+import Payment from "../pages/Dashboard/Payment/Payment";
+import Overview from "../pages/Dashboard/OverView/Overview";
 
 export const router = createBrowserRouter([
   {
@@ -17,44 +19,62 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Home
+        Component: Home,
       },
       {
-        path: 'coverage',
+        path: "coverage",
         Component: Coverage,
-        loader: () => fetch('./serviceCenter.json')
+        loader: () => fetch("./serviceCenter.json"),
       },
       {
-        path: 'sendParcel',
-        element: <PrivateRoute><SendParcel></SendParcel></PrivateRoute>,
-        loader: () => fetch('./serviceCenter.json')
-      }
-    ]
+        path: "sendParcel",
+        element: (
+          <PrivateRoute>
+            <SendParcel></SendParcel>
+          </PrivateRoute>
+        ),
+        loader: () => fetch("./serviceCenter.json"),
+      },
+    ],
   },
   {
-    path: '/',
+    path: "/",
     Component: AuthLayout,
     children: [
       {
-        path: 'login',
-        Component: Login
+        path: "login",
+        Component: Login,
       },
       {
-        path: 'register',
-        Component: Register
-      }
-    ]
+        path: "register",
+        Component: Register,
+      },
+    ],
   },
   {
-    path: '/dashboard',
-    element: <PrivateRoute>
-      <DashboardLayout></DashboardLayout>
-    </PrivateRoute>,
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
       {
-        path: 'myParcels',
-        Component: MyParcels
-      }
-    ]
-  }
+        path: "",
+        element: (
+          <PrivateRoute>
+            <Overview />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "myParcels",
+        Component: MyParcels,
+      },
+      {
+        path: "payment/:id",
+        Component: Payment,
+      },
+    ],
+  },
 ]);
