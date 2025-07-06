@@ -2,9 +2,20 @@ import React from "react";
 import { Link, NavLink } from "react-router";
 import ProFastLogo from "../ProFastLogo/ProFastLogo";
 import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+      toast.success("Logout successful!");
+      // Optional: redirect or update UI after logout
+    } catch (error) {
+      toast.error("Logout failed: " + error.message);
+    }
+  };
+
   const navItems = (
     <>
       <li>
@@ -58,16 +69,21 @@ const Navbar = () => {
             {navItems}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">
+        <div className="btn btn-ghost text-xl">
           <ProFastLogo></ProFastLogo>
-        </a>
+        </div>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end">
         {user ? (
-          <p>User</p>
+          <button
+            onClick={handleLogOut}
+            className="btn btn-primary  text-black"
+          >
+            Logout
+          </button>
         ) : (
           <Link to="/login" className="btn btn-primary  text-black">
             Login

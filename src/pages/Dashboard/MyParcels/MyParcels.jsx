@@ -4,10 +4,12 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const MyParcels = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
   const { data: parcels = [], refetch } = useQuery({
     queryKey: ["my-parcels", user.email],
     queryFn: async () => {
@@ -25,7 +27,8 @@ const MyParcels = () => {
 
   const handlePay = (id) => {
     toast(`Proceed to payment for ${id}`);
-    refetch();
+    navigate(`/dashboard/payment/${id}`);
+
     // Implement your payment logic
   };
 
